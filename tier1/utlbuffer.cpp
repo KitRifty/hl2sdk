@@ -642,12 +642,12 @@ void CUtlBuffer::GetStringInternal( char *pString, size_t maxLenInChars )
 
 	const size_t nCharsToRead = V_min( (size_t)nLen, maxLenInChars ) - 1;
 
-	Get( pString, nCharsToRead );
+	Get( pString, (int)nCharsToRead );
 	pString[nCharsToRead] = 0;
 
 	if ( (size_t)nLen > (nCharsToRead + 1) )
 	{
-		SeekGet( SEEK_CURRENT, nLen - (nCharsToRead + 1) );
+		SeekGet( SEEK_CURRENT, (int)(nLen - (nCharsToRead + 1)) );
 	}
 
 	// Read the terminating NULL in binary formats
@@ -1126,7 +1126,7 @@ bool CUtlBuffer::GetToken( const char *pToken )
 		if ( pFoundEnd )
 		{
 			size_t nOffset = (size_t)pFoundEnd - (size_t)pBufStart;
-			SeekGet( CUtlBuffer::SEEK_CURRENT, nOffset + nLen );
+			SeekGet( CUtlBuffer::SEEK_CURRENT, (int)(nOffset + nLen) );
 			return true;
 		}
 
@@ -1191,7 +1191,7 @@ bool CUtlBuffer::ParseToken( const char *pStartingDelim, const char *pEndingDeli
 		goto parseFailed;
 
 	nCurrentGet = TellGet();
-	nCharsToCopy = (nCurrentGet - nEndingDelimLen) - nTokenStart;
+	nCharsToCopy = (nCurrentGet - (int)nEndingDelimLen) - nTokenStart;
 	if ( nCharsToCopy >= nMaxLen )
 	{
 		nCharsToCopy = nMaxLen - 1;
@@ -1347,7 +1347,7 @@ void CUtlBuffer::PutString( const char* pString )
 		{
 			// Not text? append a null at the end.
 			size_t nLen = Q_strlen( pString ) + 1;
-			Put( pString, nLen * sizeof(char) );
+			Put( pString, (int)(nLen * sizeof(char)) );
 			return;
 		}
 		else
@@ -1369,7 +1369,7 @@ void CUtlBuffer::PutString( const char* pString )
 			while ( pEndl )
 			{
 				size_t nSize = (size_t)pEndl - (size_t)pString + sizeof(char);
-				Put( pString, nSize );
+				Put( pString, (int)nSize );
 				pString = pEndl + 1;
 				if ( *pString )
 				{
@@ -1385,7 +1385,7 @@ void CUtlBuffer::PutString( const char* pString )
 		size_t nLen = Q_strlen( pString );
 		if ( nLen )
 		{
-			Put( pString, nLen * sizeof(char) );
+			Put( pString, (int)(nLen * sizeof(char)) );
 		}
 	}
 }
@@ -1657,7 +1657,7 @@ bool CUtlBuffer::ConvertCRLF( CUtlBuffer &outBuf )
 				break;
 			}
 
-			int nBytes = (size_t)pNext - (size_t)pCurr;
+			int nBytes = (int)((size_t)pNext - (size_t)pCurr);
 			outBuf.Put( pCurr, nBytes );
 			outBuf.PutChar( '\n' );
 			nCurrGet += nBytes + 2;
@@ -1679,7 +1679,7 @@ bool CUtlBuffer::ConvertCRLF( CUtlBuffer &outBuf )
 				break;
 			}
 
-			int nBytes = (size_t)pNext - (size_t)pCurr;
+			int nBytes = (int)((size_t)pNext - (size_t)pCurr);
 			outBuf.Put( pCurr, nBytes );
 			outBuf.PutChar( '\r' );
 			outBuf.PutChar( '\n' );

@@ -1872,7 +1872,7 @@ void KeyValues::CopyKeyValue( const KeyValues& src, size_t tmpBufferSizeB, char*
 	case TYPE_INT:
 		{
 			m_iValue = src.m_iValue;
-			Q_snprintf( tmpBuffer, tmpBufferSizeB, "%d", m_iValue );
+			Q_snprintf( tmpBuffer, (int)tmpBufferSizeB, "%d", m_iValue );
 			int len = Q_strlen(tmpBuffer) + 1;
 				m_sValue = KVStringAlloc<char>(len);
 			Q_strncpy( m_sValue, tmpBuffer, len  );
@@ -1881,7 +1881,7 @@ void KeyValues::CopyKeyValue( const KeyValues& src, size_t tmpBufferSizeB, char*
 	case TYPE_FLOAT:
 		{
 			m_flValue = src.m_flValue;
-			Q_snprintf( tmpBuffer, tmpBufferSizeB, "%f", m_flValue );
+			Q_snprintf( tmpBuffer, (int)tmpBufferSizeB, "%f", m_flValue );
 			int len = Q_strlen(tmpBuffer) + 1;
 			m_sValue = KVStringAlloc<char>(len);
 			Q_strncpy( m_sValue, tmpBuffer, len );

@@ -462,7 +462,7 @@ bool bf_write::WriteBits(const void *pInData, int nBits)
 	}
 
 	// Align output to dword boundary
-	while (((unsigned long)pOut & 3) != 0 && nBitsLeft >= 8)
+	while (((size_t)pOut & 3) != 0 && nBitsLeft >= 8)
 	{
 
 		WriteUBitLong( *pOut, 8, false );
@@ -938,7 +938,7 @@ int bf_read::ReadBitsClamped_ptr(void *pOutData, size_t outSizeBytes, size_t nBi
 		//	return 0;
 	}
 
-	ReadBits( pOutData, readSizeBits );
+	ReadBits( pOutData, (int)readSizeBits );
 	SeekRelative( skippedBits );
 
 	// Return the number of bits actually read.

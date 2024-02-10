@@ -624,7 +624,7 @@ CUtlString CUtlString::Replace( const char *pszFrom, const char *pszTo ) const
 	size_t srcLength = Length();
 	CUtlString strDest;
 	size_t destLength = srcLength + nAllocOffset;
-	strDest.SetLength( destLength );
+	strDest.SetLength( (int)destLength );
 
 	// find and replace the search string
 	pos = pFirstFound;
@@ -648,7 +648,7 @@ CUtlString CUtlString::Replace( const char *pszFrom, const char *pszTo ) const
 	Assert( destLength - nDestOffset == srcLength - nSrcOffset );
 	if ( destLength - nDestOffset > 0 )
 	{
-		V_strncpy( strDest.GetForModify() + nDestOffset, String() + nSrcOffset, destLength - nDestOffset + 1 );
+		V_strncpy( strDest.GetForModify() + nDestOffset, String() + nSrcOffset, (int)(destLength - nDestOffset + 1) );
 	}
 
 	return strDest;

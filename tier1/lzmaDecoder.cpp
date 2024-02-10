@@ -26,8 +26,8 @@
 #include "tier0/memdbgon.h"
 
 // Allocator to pass to LZMA functions
-static void *SzAlloc(void *p, size_t size) { return malloc(size); }
-static void SzFree(void *p, void *address) { free(address); }
+static void *SzAlloc(ISzAllocPtr p, size_t size) { return malloc(size); }
+static void SzFree(ISzAllocPtr p, void *address) { free(address); }
 static ISzAlloc g_Alloc = { SzAlloc, SzFree };
 
 //-----------------------------------------------------------------------------
@@ -103,7 +103,7 @@ unsigned int CLZMA::Uncompress( unsigned char *pInput, unsigned char *pOutput )
 		return 0;
 	}
 
-	return outProcessed;
+	return (unsigned int)outProcessed;
 }
 
 CLZMAStream::CLZMAStream()
@@ -228,8 +228,8 @@ bool CLZMAStream::Read( unsigned char *pInput, unsigned int nMaxInputBytes,
 		return false;
 	}
 
-	nCompressedBytesRead += inSize;
-	nOutputBytesWritten += outSize;
+	nCompressedBytesRead += (unsigned int)inSize;
+	nOutputBytesWritten += (unsigned int)outSize;
 
 	m_nCompressedBytesRead += nCompressedBytesRead;
 	m_nActualBytesRead += nOutputBytesWritten;
