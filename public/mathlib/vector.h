@@ -23,7 +23,7 @@
 #include <stdlib.h>
 
 #ifndef _X360
-#ifdef _M_X64
+#if defined(__x86_64__) || defined(_M_X64)
 #include <emmintrin.h>
 #else
 // For MMX intrinsics
