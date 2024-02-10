@@ -1178,7 +1178,7 @@ public:
 	CThreadSpinRWLock()
 	{
 		COMPILE_TIME_ASSERT( sizeof( LockInfo_t ) == sizeof( int64 ) );
-		Assert( (int)this % 8 == 0 );
+		Assert( (intp)this % 8 == 0 );
 		m_lockInfo.m_writerId = 0;
 		m_lockInfo.m_nReaders = 0;
 		m_lockInfo.m_i64 = 0;

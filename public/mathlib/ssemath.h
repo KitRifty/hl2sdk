@@ -6,8 +6,10 @@
 #ifndef SSEMATH_H
 #define SSEMATH_H
 
-#if defined( _X360 )
+#ifdef _X360
 #include <xboxmath.h>
+#elif defined(_M_X64)
+#include <emmintrin.h>
 #else
 #include <xmmintrin.h>
 #endif
@@ -22,7 +24,11 @@
 #endif
 
 #if (!defined(_X360) && (USE_STDC_FOR_SIMD == 0))
+#ifdef _M_X64
+#define _SSE2 1
+#else
 #define _SSE1 1
+#endif
 #endif
 
 // I thought about defining a class/union for the SIMD packed floats instead of using fltx4,
@@ -2407,6 +2413,9 @@ FORCEINLINE i32x4 IntShiftLeftWordSIMD(const i32x4 &vSrcA, const i32x4 &vSrcB)
 // like this.
 FORCEINLINE void ConvertStoreAsIntsSIMD(intx4 * RESTRICT pDest, const fltx4 &vSrc)
 {
+#ifdef _SSE2
+	*reinterpret_cast<__m128i*>(pDest) = _mm_cvtps_epi32(vSrc);
+#else
 	__m64 bottom = _mm_cvttps_pi32( vSrc );
 	__m64 top    = _mm_cvttps_pi32( _mm_movehl_ps(vSrc,vSrc) );
 
@@ -2414,6 +2423,7 @@ FORCEINLINE void ConvertStoreAsIntsSIMD(intx4 * RESTRICT pDest, const fltx4 &vSr
 	*reinterpret_cast<__m64 *>(&(*pDest)[2]) = top;
 
 	_mm_empty();
+#endif
 }
 
 
