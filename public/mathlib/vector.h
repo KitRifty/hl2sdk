@@ -23,8 +23,12 @@
 #include <stdlib.h>
 
 #ifndef _X360
+#if defined(__x86_64__) || defined(_M_X64)
+#include <emmintrin.h>
+#else
 // For MMX intrinsics
 #include <xmmintrin.h>
+#endif
 #endif
 
 #include "tier0/dbg.h"

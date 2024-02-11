@@ -1060,16 +1060,16 @@ inline T QWordSwapC( T dw )
 // platform/compiler this should be tested.
 inline short BigShort( short val )		{ int test = 1; return ( *(char *)&test == 1 ) ? WordSwap( val )  : val; }
 inline uint16 BigWord( uint16 val )		{ int test = 1; return ( *(char *)&test == 1 ) ? WordSwap( val )  : val; }
-inline long BigLong( long val )			{ int test = 1; return ( *(char *)&test == 1 ) ? DWordSwap( val ) : val; }
+inline int BigLong( int val )			{ int test = 1; return ( *(char *)&test == 1 ) ? DWordSwap( val ) : val; }
 inline uint32 BigDWord( uint32 val )	{ int test = 1; return ( *(char *)&test == 1 ) ? DWordSwap( val ) : val; }
 inline short LittleShort( short val )	{ int test = 1; return ( *(char *)&test == 1 ) ? val : WordSwap( val ); }
 inline uint16 LittleWord( uint16 val )	{ int test = 1; return ( *(char *)&test == 1 ) ? val : WordSwap( val ); }
-inline long LittleLong( long val )		{ int test = 1; return ( *(char *)&test == 1 ) ? val : DWordSwap( val ); }
+inline int LittleLong( int val )		{ int test = 1; return ( *(char *)&test == 1 ) ? val : DWordSwap( val ); }
 inline uint32 LittleDWord( uint32 val )	{ int test = 1; return ( *(char *)&test == 1 ) ? val : DWordSwap( val ); }
 inline uint64 LittleQWord( uint64 val )	{ int test = 1; return ( *(char *)&test == 1 ) ? val : QWordSwap( val ); }
 inline short SwapShort( short val )					{ return WordSwap( val ); }
 inline uint16 SwapWord( uint16 val )				{ return WordSwap( val ); }
-inline long SwapLong( long val )					{ return DWordSwap( val ); }
+inline int SwapLong( int val )					{ return DWordSwap( val ); }
 inline uint32 SwapDWord( uint32 val )				{ return DWordSwap( val ); }
 
 // Pass floats by pointer for swapping to avoid truncation in the fpu
@@ -1080,22 +1080,22 @@ inline void SwapFloat( float *pOut, const float *pIn )		{ SafeSwapFloat( pOut, p
 #endif
 
 #if _X360
-FORCEINLINE unsigned long LoadLittleDWord( const unsigned long *base, unsigned int dwordIndex )
+FORCEINLINE unsigned int LoadLittleDWord( const unsigned int *base, unsigned int dwordIndex )
 		{
 			return __loadwordbytereverse( dwordIndex<<2, base );
 		}
 
-FORCEINLINE void StoreLittleDWord( unsigned long *base, unsigned int dwordIndex, unsigned long dword )
+FORCEINLINE void StoreLittleDWord( unsigned int *base, unsigned int dwordIndex, unsigned int dword )
 		{
 			__storewordbytereverse( dword, dwordIndex<<2, base );
 		}
 #else
-FORCEINLINE unsigned long LoadLittleDWord( const unsigned long *base, unsigned int dwordIndex )
+FORCEINLINE unsigned int LoadLittleDWord( const unsigned int *base, unsigned int dwordIndex )
 	{
 		return LittleDWord( base[dwordIndex] );
 	}
 
-FORCEINLINE void StoreLittleDWord( unsigned long *base, unsigned int dwordIndex, unsigned long dword )
+FORCEINLINE void StoreLittleDWord( unsigned int *base, unsigned int dwordIndex, unsigned int dword )
 	{
 		base[dwordIndex] = LittleDWord(dword);
 	}

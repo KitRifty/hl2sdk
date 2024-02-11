@@ -3388,7 +3388,7 @@ void MessageWriteEHandle( CBaseEntity *pEntity )
 	if (!g_pMsgBuffer)
 		Error( "WriteEHandle called with no active message\n" );
 
-	long iEncodedEHandle;
+	int iEncodedEHandle;
 	
 	if( pEntity )
 	{

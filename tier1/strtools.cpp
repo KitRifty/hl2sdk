@@ -130,7 +130,7 @@ int _V_memcmp (const char* file, int line, const void *m1, const void *m2, int c
 int	_V_strlen(const char* file, int line, const char *str)
 {
 	AssertValidStringPtr(str);
-	return strlen( str );
+	return (int)strlen( str );
 }
 
 void _V_strcpy (const char* file, int line, char *dest, const char *src)
@@ -143,7 +143,7 @@ void _V_strcpy (const char* file, int line, char *dest, const char *src)
 
 int	_V_wcslen(const char* file, int line, const wchar_t *pwch)
 {
-	return wcslen( pwch );
+	return (int)wcslen( pwch );
 }
 
 char *_V_strrchr(const char* file, int line, const char *s, char c)
@@ -238,7 +238,7 @@ char *V_strlower( char *start )
 char *V_strnlwr(char *s, size_t count)
 {
 	// Assert( count >= 0 ); tautology since size_t is unsigned
-	AssertValidStringPtr( s, count );
+	AssertValidStringPtr( s, (int)count );
 
 	char* pRet = s;
 	if ( !s || !count )
@@ -2323,7 +2323,7 @@ static bool CopyToMaxChars( char *pOut, int outSize, const char *pIn, int nChars
 //-----------------------------------------------------------------------------
 void V_FixupPathName( char *pOut, size_t nOutLen, const char *pPath )
 {
-	V_strncpy( pOut, pPath, nOutLen );
+	V_strncpy( pOut, pPath, (int)nOutLen );
 	V_RemoveDotSlashes( pOut, CORRECT_PATH_SEPARATOR, true );
 #ifdef WIN32
 	V_strlower( pOut );
@@ -2342,8 +2342,8 @@ bool V_StrSubst(
 	bool bCaseSensitive
 	)
 {
-	int replaceFromLen = strlen( pMatch );
-	int replaceToLen = strlen( pReplaceWith );
+	int replaceFromLen = V_strlen( pMatch );
+	int replaceToLen = V_strlen( pReplaceWith );
 
 	const char *pInStart = pIn;
 	char *pOutPos = pOut;
@@ -2365,7 +2365,7 @@ bool V_StrSubst(
 			if ( copyLen > nRemainingOut-1 )
 				return false;
 
-			pOutPos += strlen( pOutPos );
+			pOutPos += V_strlen( pOutPos );
 			nRemainingOut = outLen - (pOutPos - pOut);
 
 			// Now add the replacement string.
@@ -2378,7 +2378,7 @@ bool V_StrSubst(
 		else
 		{
 			// We're at the end of pIn. Copy whatever remains and get out.
-			int copyLen = strlen( pInStart );
+			int copyLen = V_strlen( pInStart );
 			V_strncpy( pOutPos, pInStart, nRemainingOut );
 			return ( copyLen <= nRemainingOut-1 );
 		}
@@ -2390,9 +2390,9 @@ char* AllocString( const char *pStr, int nMaxChars )
 {
 	int allocLen;
 	if ( nMaxChars == -1 )
-		allocLen = strlen( pStr ) + 1;
+		allocLen = V_strlen( pStr ) + 1;
 	else
-		allocLen = V_min( (int)strlen(pStr), nMaxChars ) + 1;
+		allocLen = V_min( V_strlen(pStr), nMaxChars ) + 1;
 
 	char *pOut = new char[allocLen];
 	V_strncpy( pOut, pStr, allocLen );
@@ -2421,7 +2421,7 @@ void V_SplitString2( const char *pString, const char **pSeparators, int nSeparat
 		if ( pFirstSeparator )
 		{
 			// Split on this separator and continue on.
-			int separatorLen = strlen( pSeparators[iFirstSeparator] );
+			int separatorLen = V_strlen( pSeparators[iFirstSeparator] );
 			if ( pFirstSeparator > pCurPos )
 			{
 				outStrings.AddToTail( AllocString( pCurPos, pFirstSeparator-pCurPos ) );
@@ -2432,7 +2432,7 @@ void V_SplitString2( const char *pString, const char **pSeparators, int nSeparat
 		else
 		{
 			// Copy the rest of the string
-			if ( strlen( pCurPos ) )
+			if ( V_strlen( pCurPos ) )
 			{
 				outStrings.AddToTail( AllocString( pCurPos, -1 ) );
 			}
@@ -2469,7 +2469,7 @@ void V_StrSlice( const char *pStr, int firstChar, int lastCharNonInclusive, char
 	if ( outSize == 0 )
 		return;
 	
-	int length = strlen( pStr );
+	int length = V_strlen( pStr );
 
 	// Fixup the string indices.
 	if ( firstChar < 0 )
@@ -2527,14 +2527,14 @@ void V_StrLeft( const char *pStr, int nChars, char *pOut, int outSize )
 
 void V_StrRight( const char *pStr, int nChars, char *pOut, int outSize )
 {
-	int len = strlen( pStr );
+	int len = V_strlen( pStr );
 	if ( nChars >= len )
 	{
 		V_strncpy( pOut, pStr, outSize );
 	}
 	else
 	{
-		V_StrSlice( pStr, -nChars, strlen( pStr ), pOut, outSize );
+		V_StrSlice( pStr, -nChars, V_strlen( pStr ), pOut, outSize );
 	}
 }
 

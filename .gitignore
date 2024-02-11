@@ -12,3 +12,6 @@ Release/
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user
+
+# Build directories
+obj/

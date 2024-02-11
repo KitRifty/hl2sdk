@@ -16,7 +16,9 @@
 
 #include "mathlib/math_pfns.h"
 
-#if defined(__i386__) || defined(_M_IX86)
+#if defined(__x86_64__) || defined(_M_X64)
+#include <emmintrin.h>
+#elif defined(__i386__) || defined(_M_IX86)
 // For MMX intrinsics
 #include <xmmintrin.h>
 #endif
