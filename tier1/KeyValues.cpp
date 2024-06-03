@@ -974,11 +974,7 @@ void KeyValues::SaveKeyToFile( KeyValues *dat, IBaseFileSystem *filesystem, File
 
 				char buf[32];
 				// write "0x" + 16 char 0-padded hex encoded 64 bit value
-#ifdef PLATFORM_64BITS
-				Q_snprintf( buf, sizeof( buf ), "0x%016lX", *( (uint64 *)dat->m_sValue ) );
-#else
 				Q_snprintf( buf, sizeof( buf ), "0x%016llX", *( (uint64 *)dat->m_sValue ) );
-#endif
 
 				INTERNALWRITE(buf, Q_strlen(buf));
 				INTERNALWRITE("\"\n", 2);
@@ -1467,11 +1463,7 @@ const char *KeyValues::GetString( const char *keyName, const char *defaultValue 
 			SetString( keyName, buf );
 			break;
 		case TYPE_PTR:
-#ifdef PLATFORM_64BITS
-			Q_snprintf( buf, sizeof( buf ), "%ld", (int64)(size_t)dat->m_pValue );
-#else
 			Q_snprintf( buf, sizeof( buf ), "%lld", (int64)(size_t)dat->m_pValue );
-#endif
 			SetString( keyName, buf );
 			break;
 		case TYPE_INT:
@@ -1479,11 +1471,7 @@ const char *KeyValues::GetString( const char *keyName, const char *defaultValue 
 			SetString( keyName, buf );
 			break;
 		case TYPE_UINT64:
-#ifdef PLATFORM_64BITS
-			Q_snprintf( buf, sizeof( buf ), "%lu", *((uint64 *)(dat->m_sValue)) );
-#else
 			Q_snprintf( buf, sizeof( buf ), "%llu", *((uint64 *)(dat->m_sValue)) );
-#endif
 			SetString( keyName, buf );
 			break;
 
@@ -3155,11 +3143,7 @@ bool IKeyValuesDumpContextAsText::KvWriteValue( KeyValues *val, int nIndentLevel
 		{
 			uint64 n = val->GetUint64();
 			char *chBuffer = ( char * ) stackalloc( 128 );
-#ifdef PLATFORM_64BITS
-			V_snprintf( chBuffer, 128, "u64( %lu = 0x%lX )", n, n );
-#else
 			V_snprintf( chBuffer, 128, "u64( %llu = 0x%llX )", n, n );
-#endif
 			if ( !KvWriteText( chBuffer ) )
 				return false;
 		}

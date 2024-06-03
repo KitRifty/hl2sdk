@@ -171,6 +171,22 @@ typedef signed char int8;
 #endif
 
 #if defined( _WIN32 )
+
+	typedef __int16					int16;
+	typedef unsigned __int16		uint16;
+	typedef __int32					int32;
+	typedef unsigned __int32		uint32;
+	typedef __int64					int64;
+	typedef unsigned __int64		uint64;
+
+	#ifdef PLATFORM_64BITS
+		typedef __int64 intp;				// intp is an integer that can accomodate a pointer
+		typedef unsigned __int64 uintp;		// (ie, sizeof(intp) >= sizeof(int) && sizeof(intp) >= sizeof(void *)
+	#else
+		typedef __int32 intp;
+		typedef unsigned __int32 uintp;
+	#endif
+
 	#if defined( _X360 )
 		#ifdef __m128
 			#undef __m128
@@ -186,6 +202,20 @@ typedef signed char int8;
 	#define OVERRIDE override
 
 #else // _WIN32
+
+	typedef short					int16;
+	typedef unsigned short			uint16;
+	typedef int						int32;
+	typedef unsigned int			uint32;
+	typedef long long				int64;
+	typedef unsigned long long		uint64;
+	#ifdef PLATFORM_64BITS
+		typedef long long			intp;
+		typedef unsigned long long	uintp;
+	#else
+		typedef int					intp;
+		typedef unsigned int		uintp;
+	#endif
 	typedef void *HWND;
 
 	// Avoid redefinition warnings if a previous header defines this.
@@ -203,19 +233,10 @@ typedef signed char int8;
 
 #endif // else _WIN32
 
-typedef int16_t		int16;
-typedef uint16_t	uint16;
-typedef int32_t		int32;
-typedef uint32_t	uint32;
-typedef int64_t		int64;
-typedef uint64_t	uint64;
-typedef intptr_t	intp;
-typedef uintptr_t	uintp;
-
 #ifdef PLATFORM_64BITS
-typedef uint64_t ThreadId_t;
+typedef uint64 	ThreadId_t;
 #else
-typedef uint32_t ThreadId_t;
+typedef uint32	ThreadId_t;
 #endif
 
 //-----------------------------------------------------------------------------
