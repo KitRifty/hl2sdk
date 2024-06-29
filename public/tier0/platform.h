@@ -745,7 +745,9 @@ typedef void * HINSTANCE;
 
 
 #ifdef POSIX
+#ifndef _stricmp
 #define _stricmp stricmp
+#endif
 #define strcmpi stricmp
 #define stricmp strcasecmp
 #define _vsnprintf vsnprintf
