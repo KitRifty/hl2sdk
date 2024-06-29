@@ -2,10 +2,10 @@ name: Continuous Integration
 on: 
   push:
     branches:
-     - master
+     - tf2
   pull_request:
     branches:
-     - master
+     - tf2
 
 jobs:
   test:
