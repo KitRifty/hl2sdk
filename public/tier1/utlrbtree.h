@@ -318,7 +318,7 @@ protected:
 };
 
 // this is kind of ugly, but until C++ gets templatized typedefs in C++0x, it's our only choice
-template < class T, class I = int, typename L = bool (*)( const T &, const T & )  >
+template < class T, class I = intp, typename L = bool (*)( const T &, const T & )  >
 class CUtlFixedRBTree : public CUtlRBTree< T, I, L, CUtlFixedMemory< UtlRBTreeNode_t< T, I > > >
 {
 public:
