@@ -1,4 +1,4 @@
-//========= Copyright Valve Corporation, All rights reserved. ============//
+//===== Copyright © 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: 
 //
@@ -39,11 +39,10 @@ public:
 	virtual const char* GetParm( int nIndex ) const = 0;
 	
 	virtual bool		HasParm( const char *parm ) = 0;
-
-	// copies the string passwed
-	virtual void SetParm( int nIndex, char const *pNewParm ) =0;
-
-	virtual const char *ParmValueByIndex( int nIndex, const char *pDefaultVal = 0 ) const = 0;
+	
+	// Additions in 9247927 (2024-10-11)
+	virtual void		CreateCmdLine1( const char *commandline, bool unknown ) = 0;
+	virtual void		CreateCmdLine1( int argc, char **argv, bool unknown ) = 0;
 };
 
 //-----------------------------------------------------------------------------
@@ -58,4 +57,3 @@ PLATFORM_INTERFACE ICommandLine *CommandLine_Tier0();
 #endif
 
 #endif // TIER0_ICOMMANDLINE_H
-
